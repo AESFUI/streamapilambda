@@ -1,7 +1,11 @@
 package ml.sadriev.streamapilambda.service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 import ml.sadriev.streamapilambda.api.repository.ProjectRepository;
 import ml.sadriev.streamapilambda.api.repository.TaskRepository;
 import ml.sadriev.streamapilambda.api.service.ITaskService;
@@ -94,5 +98,29 @@ public class TaskService implements ITaskService {
     public void load(Collection<Task> tasks) {
         clear();
         taskRepository.load(tasks);
+    }
+
+    @Override
+    public Map<String, Date> getTaskDateMapFromTaskAfterDate(Date beginDate, String line) {
+        List<Task> allTasks = taskRepository.findAll();
+
+        return allTasks
+                .stream()
+                .filter(t -> t.getDateBegin().after(beginDate))
+                .filter(t -> t.getName().startsWith(line))
+                .collect(Collectors.toMap(Task::getName, Task::getDateBegin));
+    }
+
+    @Override
+    public void doSomeNonsense() {
+        Random rnd = new Random(2671);
+        taskRepository.findAll()
+                .stream()
+                .skip(2)
+                .limit(8)
+                .sorted()
+                .map(t -> rnd.nextInt() + t.getId().hashCode())
+                .findFirst()
+                .ifPresent(System.out::println);
     }
 }

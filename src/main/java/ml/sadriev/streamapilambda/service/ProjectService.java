@@ -1,8 +1,12 @@
 package ml.sadriev.streamapilambda.service;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import ml.sadriev.streamapilambda.api.repository.ProjectRepository;
 import ml.sadriev.streamapilambda.api.service.IProjectService;
 import ml.sadriev.streamapilambda.model.Project;
@@ -88,5 +92,15 @@ public class ProjectService implements IProjectService {
     public Project findProjectById(String id) {
         Optional<Project> projects = projectRepository.findById(id);
         return projects.orElse(new Project());
+    }
+
+    @Override
+    public Set<String> findFirstThreeNamesFromProjectById(String... ids) {
+        List<Project> projects = projectRepository.findAllById(Collections.unmodifiableList(Arrays.asList(ids)));
+        return projects
+                .stream()
+                .limit(3)
+                .map(Project::getName)
+                .collect(Collectors.toSet());
     }
 }

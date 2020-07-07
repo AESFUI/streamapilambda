@@ -2,6 +2,7 @@ package ml.sadriev.streamapilambda.api.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import ml.sadriev.streamapilambda.model.Project;
 
 /**
@@ -30,4 +31,6 @@ public interface IProjectService {
     Project removeByOrderIndex(Integer orderIndex);
 
     Project findProjectById(String id);
+
+    Set<String> findFirstThreeNamesFromProjectById(String... ids);
 }

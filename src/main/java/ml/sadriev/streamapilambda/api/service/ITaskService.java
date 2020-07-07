@@ -1,7 +1,9 @@
 package ml.sadriev.streamapilambda.api.service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import ml.sadriev.streamapilambda.model.Task;
 
 /**
@@ -30,4 +32,8 @@ public interface ITaskService {
     void load(Task... tasks);
 
     void load(Collection<Task> tasks);
+
+    Map<String, Date> getTaskDateMapFromTaskAfterDate(Date beginDate, String line);
+
+    void doSomeNonsense();
 }
