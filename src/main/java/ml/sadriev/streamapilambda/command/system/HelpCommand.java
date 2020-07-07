@@ -1,0 +1,33 @@
+package ml.sadriev.streamapilambda.command.system;
+
+import javax.annotation.Resource;
+import org.springframework.stereotype.Component;
+import ml.sadriev.streamapilambda.command.AbstractCommand;
+import ml.sadriev.streamapilambda.controller.Bootstrap;
+
+/**
+ * @author Andrey Sadriev
+ */
+@Component
+public final class HelpCommand extends AbstractCommand {
+
+    @Resource
+    private Bootstrap bootstrap;
+
+    @Override
+    public String command() {
+        return "help";
+    }
+
+    @Override
+    public String description() {
+        return "Show all commands.";
+    }
+
+    @Override
+    public void execute() {
+        for (AbstractCommand command: bootstrap.getListCommand()) {
+            System.out.println(command.command()+ ": " + command.description());
+        }
+    }
+}
